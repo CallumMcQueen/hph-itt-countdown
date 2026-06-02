@@ -65,7 +65,7 @@ body {
  
 .col-headers {
   display: grid;
-  grid-template-columns: 28px 1fr 56px 90px 90px;
+  grid-template-columns: 28px 1fr 56px 80px 90px;
   padding: 7px 16px;
   border-bottom: 2px solid #000;
   background: #f5f5f5;
@@ -87,7 +87,7 @@ body {
  
 .rider-row {
   display: grid;
-  grid-template-columns: 28px 1fr 56px 90px 90px;
+  grid-template-columns: 28px 1fr 56px 80px 90px;
   align-items: center;
   padding: 12px 16px;
   border-bottom: 1px solid #ebebeb;
@@ -114,8 +114,6 @@ body {
   font-weight: 700;
 }
  
-.rider-info {}
- 
 .rider-name {
   font-weight: 800;
   font-size: 18px;
@@ -141,9 +139,7 @@ body {
 .rider-row.on-course .radio-badge { color: #4caf50; }
 .rider-row.next-up .radio-badge { color: #c49a00; }
  
-.channel-cell {
-  text-align: center;
-}
+.channel-cell { text-align: center; }
  
 .channel-num {
   display: inline-flex;
@@ -171,7 +167,19 @@ body {
   color: #7a5c00;
 }
  
-.time-val {
+.start-time {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  text-align: right;
+  color: #000;
+}
+ 
+.rider-row.done .start-time { color: #bbb; }
+ 
+.countdown-val {
   font-size: 20px;
   font-weight: 800;
   letter-spacing: 1px;
@@ -180,17 +188,17 @@ body {
   text-align: right;
 }
  
-.time-val.upcoming { color: #d32f2f; }
-.time-val.next-up-color { color: #7a5c00; }
-.time-val.on-course-color { color: #006830; }
-.time-val.done-color { color: #bbb; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+.countdown-val.upcoming { color: #d32f2f; }
+.countdown-val.next-up-color { color: #7a5c00; }
+.countdown-val.on-course-color { color: #006830; font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+.countdown-val.done-color { color: #bbb; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
  
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.15; }
 }
  
-.time-val.imminent {
+.countdown-val.imminent {
   color: #d32f2f;
   animation: blink 0.6s ease-in-out infinite;
 }
@@ -259,13 +267,13 @@ body {
  
 <script>
 var riders = [
-  { name: "Marit Raaijmakers",   time: "13:26", channel: null,  car: null    },
-  { name: "Thalita de Jong",     time: "13:44", channel: 2,     car: "Car 6" },
-  { name: "Maggie Coles-Lyster", time: "14:14", channel: null,  car: null    },
-  { name: "Nina Buijsman",       time: "14:49", channel: 5,     car: "Car 5" },
-  { name: "Carlotta Cipressi",   time: "14:56", channel: null,  car: null    },
-  { name: "Barbara Malcotti",    time: "15:28", channel: 7,     car: "Car 2" },
-  { name: "Lily Williams",       time: "15:55", channel: 2,     car: "Car 6" },
+  { name: "Marit Raaijmakers",   time: "13:26", channel: null, car: null    },
+  { name: "Thalita de Jong",     time: "13:44", channel: 2,    car: "Car 6" },
+  { name: "Maggie Coles-Lyster", time: "14:14", channel: null, car: null    },
+  { name: "Nina Buijsman",       time: "14:49", channel: 5,    car: "Car 5" },
+  { name: "Carlotta Cipressi",   time: "14:56", channel: null, car: null    },
+  { name: "Barbara Malcotti",    time: "15:28", channel: 7,    car: "Car 2" },
+  { name: "Lily Williams",       time: "15:55", channel: 2,    car: "Car 6" },
 ];
  
 var TT_DURATION_SECS = 39 * 60;
@@ -317,7 +325,6 @@ function render() {
     else if (done) rowClass += ' done';
     else if (isNext) rowClass += ' next-up';
  
-    // Countdown cell
     var cdClass, cdText;
     if (done) {
       cdClass = 'done-color'; cdText = 'Finished';
@@ -331,34 +338,20 @@ function render() {
       cdClass = 'upcoming'; cdText = formatTime(diff);
     }
  
-    // Start time cell — same style as countdown
-    var stClass;
-    if (done) stClass = 'done-color';
-    else if (onCourse) stClass = 'on-course-color';
-    else if (imminent) stClass = 'imminent';
-    else if (isNext) stClass = 'next-up-color';
-    else stClass = 'upcoming';
+    var channelHtml = r.channel
+      ? '<div class="channel-cell"><div class="channel-num">' + r.channel + '</div></div>'
+      : '<div class="channel-cell"></div>';
  
-    // Channel badge
-    var channelHtml = '';
-    if (r.channel) {
-      channelHtml = '<div class="channel-cell"><div class="channel-num">' + r.channel + '</div></div>';
-    } else {
-      channelHtml = '<div class="channel-cell"></div>';
-    }
- 
-    // Radio sub-label
-    var radioHtml = '';
-    if (r.car) {
-      radioHtml = '<div class="radio-badge">Ch ' + r.channel + ' &nbsp;·&nbsp; ' + r.car + '</div>';
-    }
+    var radioHtml = r.car
+      ? '<div class="radio-badge">Ch ' + r.channel + ' &nbsp;·&nbsp; ' + r.car + '</div>'
+      : '';
  
     html += '<div class="' + rowClass + '">';
     html += '<span class="pos-num">' + (i + 1) + '</span>';
-    html += '<div class="rider-info"><div class="rider-name">' + r.name.toUpperCase() + '</div>' + radioHtml + '</div>';
+    html += '<div><div class="rider-name">' + r.name.toUpperCase() + '</div>' + radioHtml + '</div>';
     html += channelHtml;
-    html += '<div class="time-val ' + stClass + '" style="text-align:right">' + r.time + '</div>';
-    html += '<div class="time-val ' + cdClass + '" style="text-align:right">' + cdText + '</div>';
+    html += '<div class="start-time">' + r.time + '</div>';
+    html += '<div class="countdown-val ' + cdClass + '">' + cdText + '</div>';
     html += '</div>';
   }
  
