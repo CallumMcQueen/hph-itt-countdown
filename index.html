@@ -65,7 +65,7 @@ body {
  
 .col-headers {
   display: grid;
-  grid-template-columns: 32px 1fr 80px 100px;
+  grid-template-columns: 28px 1fr 56px 90px 90px;
   padding: 7px 16px;
   border-bottom: 2px solid #000;
   background: #f5f5f5;
@@ -79,16 +79,17 @@ body {
   font-weight: 700;
 }
  
-.col-hdr:nth-child(3),
-.col-hdr:nth-child(4) { text-align: right; }
+.col-hdr:nth-child(3) { text-align: center; }
+.col-hdr:nth-child(4),
+.col-hdr:nth-child(5) { text-align: right; }
  
 .rider-list { padding-bottom: 60px; }
  
 .rider-row {
   display: grid;
-  grid-template-columns: 32px 1fr 80px 100px;
+  grid-template-columns: 28px 1fr 56px 90px 90px;
   align-items: center;
-  padding: 13px 16px;
+  padding: 12px 16px;
   border-bottom: 1px solid #ebebeb;
   border-left: 4px solid transparent;
 }
@@ -113,77 +114,91 @@ body {
   font-weight: 700;
 }
  
+.rider-info {}
+ 
 .rider-name {
   font-weight: 800;
-  font-size: 19px;
-  letter-spacing: 0.5px;
+  font-size: 18px;
+  letter-spacing: 0.3px;
   text-transform: uppercase;
   color: #000;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-right: 6px;
 }
  
 .rider-row.next-up .rider-name { color: #7a5c00; }
 .rider-row.on-course .rider-name { color: #006830; }
  
-.start-time {
-  font-size: 16px;
+.radio-badge {
+  font-size: 11px;
   font-weight: 600;
-  color: #aaa;
-  text-align: right;
-  letter-spacing: 1px;
-  font-variant-numeric: tabular-nums;
+  color: #888;
+  margin-top: 2px;
+  letter-spacing: 0.3px;
 }
  
-.rider-row.on-course .start-time { color: #4caf50; }
-.rider-row.next-up .start-time { color: #c49a00; }
+.rider-row.on-course .radio-badge { color: #4caf50; }
+.rider-row.next-up .radio-badge { color: #c49a00; }
  
-.countdown-cell { text-align: right; }
+.channel-cell {
+  text-align: center;
+}
  
-.countdown-val {
-  font-size: 22px;
+.channel-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  border: 2px solid #ddd;
+  font-size: 17px;
+  font-weight: 800;
+  color: #333;
+}
+ 
+.rider-row.on-course .channel-num {
+  background: #c8f0d8;
+  border-color: #00a84f;
+  color: #006830;
+}
+ 
+.rider-row.next-up .channel-num {
+  background: #fff3cc;
+  border-color: #f0b400;
+  color: #7a5c00;
+}
+ 
+.time-val {
+  font-size: 20px;
   font-weight: 800;
   letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
-  color: #000;
+  text-align: right;
 }
  
-.countdown-val.on-course {
-  font-size: 13px;
-  font-weight: 700;
-  color: #006830;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
- 
-.countdown-val.done {
-  font-size: 12px;
-  font-weight: 600;
-  color: #bbb;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
- 
-.countdown-val.next-up {
-  color: #7a5c00;
-}
+.time-val.upcoming { color: #d32f2f; }
+.time-val.next-up-color { color: #7a5c00; }
+.time-val.on-course-color { color: #006830; }
+.time-val.done-color { color: #bbb; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
  
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.15; }
 }
  
-.countdown-val.imminent {
+.time-val.imminent {
   color: #d32f2f;
   animation: blink 0.6s ease-in-out infinite;
 }
  
 .legend {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 14px;
   padding: 10px 16px;
   border-top: 1px solid #e0e0e0;
   background: #f5f5f5;
@@ -196,7 +211,7 @@ body {
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 6px;
   font-size: 11px;
   color: #888;
   font-weight: 500;
@@ -205,8 +220,8 @@ body {
 }
  
 .legend-dot {
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -228,6 +243,7 @@ body {
 <div class="col-headers">
   <span class="col-hdr">#</span>
   <span class="col-hdr">Rider</span>
+  <span class="col-hdr">Ch</span>
   <span class="col-hdr">Start</span>
   <span class="col-hdr">Countdown</span>
 </div>
@@ -237,19 +253,19 @@ body {
 <div class="legend">
   <div class="legend-item"><div class="legend-dot" style="background:#00a84f"></div>On course</div>
   <div class="legend-item"><div class="legend-dot" style="background:#f0b400"></div>Next up</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#d32f2f"></div>Starting &lt;90s</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d32f2f"></div>Countdown</div>
   <div class="legend-item"><div class="legend-dot" style="background:#ccc"></div>Finished</div>
 </div>
  
 <script>
 var riders = [
-  { name: "Marit Raaijmakers",   time: "13:26" },
-  { name: "Thalita de Jong",     time: "13:44" },
-  { name: "Maggie Coles-Lyster", time: "14:14" },
-  { name: "Nina Buijsman",       time: "14:49" },
-  { name: "Carlotta Cipressi",   time: "14:56" },
-  { name: "Barbara Malcotti",    time: "15:28" },
-  { name: "Lily Williams",       time: "15:55" },
+  { name: "Marit Raaijmakers",   time: "13:26", channel: null,  car: null    },
+  { name: "Thalita de Jong",     time: "13:44", channel: 2,     car: "Car 6" },
+  { name: "Maggie Coles-Lyster", time: "14:14", channel: null,  car: null    },
+  { name: "Nina Buijsman",       time: "14:49", channel: 5,     car: "Car 5" },
+  { name: "Carlotta Cipressi",   time: "14:56", channel: null,  car: null    },
+  { name: "Barbara Malcotti",    time: "15:28", channel: 7,     car: "Car 2" },
+  { name: "Lily Williams",       time: "15:55", channel: 2,     car: "Car 6" },
 ];
  
 var TT_DURATION_SECS = 39 * 60;
@@ -266,7 +282,7 @@ function nowSecs() {
  
 function pad2(n) { return n < 10 ? '0' + n : '' + n; }
  
-function formatCountdown(secs) {
+function formatTime(secs) {
   var abs = Math.abs(secs);
   var h = Math.floor(abs / 3600);
   var m = Math.floor((abs % 3600) / 60);
@@ -301,24 +317,48 @@ function render() {
     else if (done) rowClass += ' done';
     else if (isNext) rowClass += ' next-up';
  
+    // Countdown cell
     var cdClass, cdText;
     if (done) {
-      cdClass = 'done'; cdText = 'Finished';
+      cdClass = 'done-color'; cdText = 'Finished';
     } else if (onCourse) {
-      cdClass = 'on-course'; cdText = 'On course';
+      cdClass = 'on-course-color'; cdText = 'On course';
     } else if (imminent) {
-      cdClass = 'imminent'; cdText = formatCountdown(diff);
+      cdClass = 'imminent'; cdText = formatTime(diff);
     } else if (isNext) {
-      cdClass = 'next-up'; cdText = formatCountdown(diff);
+      cdClass = 'next-up-color'; cdText = formatTime(diff);
     } else {
-      cdClass = 'upcoming'; cdText = formatCountdown(diff);
+      cdClass = 'upcoming'; cdText = formatTime(diff);
+    }
+ 
+    // Start time cell — same style as countdown
+    var stClass;
+    if (done) stClass = 'done-color';
+    else if (onCourse) stClass = 'on-course-color';
+    else if (imminent) stClass = 'imminent';
+    else if (isNext) stClass = 'next-up-color';
+    else stClass = 'upcoming';
+ 
+    // Channel badge
+    var channelHtml = '';
+    if (r.channel) {
+      channelHtml = '<div class="channel-cell"><div class="channel-num">' + r.channel + '</div></div>';
+    } else {
+      channelHtml = '<div class="channel-cell"></div>';
+    }
+ 
+    // Radio sub-label
+    var radioHtml = '';
+    if (r.car) {
+      radioHtml = '<div class="radio-badge">Ch ' + r.channel + ' &nbsp;·&nbsp; ' + r.car + '</div>';
     }
  
     html += '<div class="' + rowClass + '">';
     html += '<span class="pos-num">' + (i + 1) + '</span>';
-    html += '<span class="rider-name">' + r.name.toUpperCase() + '</span>';
-    html += '<span class="start-time">' + r.time + '</span>';
-    html += '<div class="countdown-cell"><span class="countdown-val ' + cdClass + '">' + cdText + '</span></div>';
+    html += '<div class="rider-info"><div class="rider-name">' + r.name.toUpperCase() + '</div>' + radioHtml + '</div>';
+    html += channelHtml;
+    html += '<div class="time-val ' + stClass + '" style="text-align:right">' + r.time + '</div>';
+    html += '<div class="time-val ' + cdClass + '" style="text-align:right">' + cdText + '</div>';
     html += '</div>';
   }
  
