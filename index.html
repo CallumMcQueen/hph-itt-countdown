@@ -8,8 +8,8 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
  
 body {
-  background: #000;
-  color: #fff;
+  background: #fff;
+  color: #000;
   font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
   min-height: 100vh;
   -webkit-text-size-adjust: 100%;
@@ -39,19 +39,16 @@ body {
   filter: brightness(0) invert(1);
 }
  
-.header-text {}
- 
 .header-title {
   font-weight: 800;
   font-size: 18px;
-  letter-spacing: 0.3px;
   color: #fff;
   line-height: 1.1;
 }
  
 .header-sub {
   font-size: 11px;
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.75);
   letter-spacing: 0.5px;
   margin-top: 3px;
   text-transform: uppercase;
@@ -64,22 +61,21 @@ body {
   letter-spacing: 3px;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
-  text-shadow: 0 0 20px rgba(255,255,255,0.3);
 }
  
 .col-headers {
   display: grid;
   grid-template-columns: 32px 1fr 80px 100px;
-  padding: 8px 16px;
-  border-bottom: 1px solid #222;
-  background: #0d0d0d;
+  padding: 7px 16px;
+  border-bottom: 2px solid #000;
+  background: #f5f5f5;
 }
  
 .col-hdr {
   font-size: 9px;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: #444;
+  color: #999;
   font-weight: 700;
 }
  
@@ -93,28 +89,27 @@ body {
   grid-template-columns: 32px 1fr 80px 100px;
   align-items: center;
   padding: 13px 16px;
-  border-bottom: 1px solid #111;
+  border-bottom: 1px solid #ebebeb;
   border-left: 4px solid transparent;
-  transition: background 0.4s;
 }
  
 .rider-row.on-course {
-  background: #0d1f0f;
-  border-left: 4px solid #00e676;
+  background: #e8f8ee;
+  border-left: 4px solid #00a84f;
 }
  
 .rider-row.next-up {
-  background: #1a1200;
-  border-left: 4px solid #ffd600;
+  background: #fffbe6;
+  border-left: 4px solid #f0b400;
 }
  
 .rider-row.done {
-  opacity: 0.25;
+  opacity: 0.3;
 }
  
 .pos-num {
   font-size: 12px;
-  color: #333;
+  color: #ccc;
   font-weight: 700;
 }
  
@@ -123,27 +118,27 @@ body {
   font-size: 19px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  color: #fff;
+  color: #000;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   padding-right: 6px;
 }
  
-.rider-row.next-up .rider-name { color: #ffd600; }
-.rider-row.on-course .rider-name { color: #00e676; }
+.rider-row.next-up .rider-name { color: #7a5c00; }
+.rider-row.on-course .rider-name { color: #006830; }
  
 .start-time {
   font-size: 16px;
   font-weight: 600;
-  color: #444;
+  color: #aaa;
   text-align: right;
   letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
 }
  
-.rider-row.on-course .start-time { color: #1a6635; }
-.rider-row.next-up .start-time { color: #6b5500; }
+.rider-row.on-course .start-time { color: #4caf50; }
+.rider-row.next-up .start-time { color: #c49a00; }
  
 .countdown-cell { text-align: right; }
  
@@ -153,13 +148,13 @@ body {
   letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
-  color: #fff;
+  color: #000;
 }
  
 .countdown-val.on-course {
   font-size: 13px;
   font-weight: 700;
-  color: #00e676;
+  color: #006830;
   letter-spacing: 1.5px;
   text-transform: uppercase;
 }
@@ -167,13 +162,13 @@ body {
 .countdown-val.done {
   font-size: 12px;
   font-weight: 600;
-  color: #333;
+  color: #bbb;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
  
 .countdown-val.next-up {
-  color: #ffd600;
+  color: #7a5c00;
 }
  
 @keyframes blink {
@@ -182,7 +177,7 @@ body {
 }
  
 .countdown-val.imminent {
-  color: #ff4444;
+  color: #d32f2f;
   animation: blink 0.6s ease-in-out infinite;
 }
  
@@ -190,8 +185,8 @@ body {
   display: flex;
   gap: 20px;
   padding: 10px 16px;
-  border-top: 1px solid #1a1a1a;
-  background: #060606;
+  border-top: 1px solid #e0e0e0;
+  background: #f5f5f5;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -203,7 +198,7 @@ body {
   align-items: center;
   gap: 7px;
   font-size: 11px;
-  color: #444;
+  color: #888;
   font-weight: 500;
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -222,7 +217,7 @@ body {
 <div class="header">
   <div class="header-left">
     <img class="hph-logo" src="data:image/png;base64,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" alt="HPH">
-    <div class="header-text">
+    <div>
       <div class="header-title">Human Powered Health</div>
       <div class="header-sub">Stage 4 ITT &nbsp;·&nbsp; Belluno → Piano Nevegal &nbsp;·&nbsp; 12.73 km</div>
     </div>
@@ -240,10 +235,10 @@ body {
 <div class="rider-list" id="rider-list"></div>
  
 <div class="legend">
-  <div class="legend-item"><div class="legend-dot" style="background:#00e676"></div>On course</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#ffd600"></div>Next up</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#ff4444"></div>Starting &lt;90s</div>
-  <div class="legend-item"><div class="legend-dot" style="background:#333"></div>Finished</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#00a84f"></div>On course</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f0b400"></div>Next up</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#d32f2f"></div>Starting &lt;90s</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ccc"></div>Finished</div>
 </div>
  
 <script>
