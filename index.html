@@ -71,7 +71,7 @@ body {
  
 .col-headers {
   display: grid;
-  grid-template-columns: 44px 1fr 80px 130px 140px;
+  grid-template-columns: 44px 1fr 80px 160px 60px 160px;
   padding: 8px 20px;
   border-bottom: 3px solid #000;
   background: #f0f0f0;
@@ -86,9 +86,8 @@ body {
   font-weight: 700;
 }
  
-.col-hdr:nth-child(3) { text-align: center; }
-.col-hdr:nth-child(4),
-.col-hdr:nth-child(5) { text-align: right; }
+.col-hdr.center { text-align: center; }
+.col-hdr.right { text-align: right; }
  
 .rider-list {
   flex: 1;
@@ -99,7 +98,7 @@ body {
  
 .rider-row {
   display: grid;
-  grid-template-columns: 44px 1fr 80px 130px 140px;
+  grid-template-columns: 44px 1fr 80px 160px 60px 160px;
   align-items: center;
   padding: 0 20px;
   border-bottom: 1px solid #e0e0e0;
@@ -146,7 +145,6 @@ body {
   font-weight: 600;
   color: #999;
   margin-top: 2px;
-  letter-spacing: 0.3px;
 }
  
 .rider-row.on-course .radio-badge { color: #00a84f; }
@@ -192,13 +190,20 @@ body {
  
 .rider-row.done .start-time { color: #bbb; }
  
+.divider {
+  text-align: center;
+  font-size: 28px;
+  color: #ddd;
+  font-weight: 300;
+}
+ 
 .countdown-val {
   font-size: 34px;
   font-weight: 800;
   letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum";
-  text-align: right;
+  text-align: left;
 }
  
 .countdown-val.upcoming { color: #d32f2f; }
@@ -260,8 +265,9 @@ body {
 <div class="col-headers">
   <span class="col-hdr">#</span>
   <span class="col-hdr">Rider</span>
-  <span class="col-hdr">Ch</span>
-  <span class="col-hdr">Start</span>
+  <span class="col-hdr center">Ch</span>
+  <span class="col-hdr right">Start</span>
+  <span class="col-hdr"></span>
   <span class="col-hdr">Countdown</span>
 </div>
  
@@ -360,6 +366,7 @@ function render() {
     html += '<div><div class="rider-name">' + r.name.toUpperCase() + '</div>' + radioHtml + '</div>';
     html += channelHtml;
     html += '<div class="start-time">' + r.time + '</div>';
+    html += '<div class="divider">|</div>';
     html += '<div class="countdown-val ' + cdClass + '">' + cdText + '</div>';
     html += '</div>';
   }
